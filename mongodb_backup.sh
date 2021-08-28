@@ -1,0 +1,1 @@
+upercut % mongodump -h localhost:27017 -d upercut -o .
