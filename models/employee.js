@@ -6,7 +6,9 @@ const employeeSchema = new Schema({
     lastname: String,
     email : String,
     password : String,
-    companyid: String
+    companyid: String,
+    token: String,
+    lastLogin: String
 });
 
 module.exports = monggose.model('Employee', employeeSchema);

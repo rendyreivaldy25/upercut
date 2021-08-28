@@ -15,6 +15,11 @@ type Employee {
     companyid: String
 }
 
+type LoginResponse {
+    status : Boolean
+    token : String
+}
+
 type Query {
     health: String
     getCompanies: [Company]
@@ -30,6 +35,7 @@ type Mutation {
     updateEmployee(_id: String, firstname : String, lastname : String, email : String, password : String, companyid: String) : Boolean
     deleteCompany(_id: String) : Boolean
     deleteEmployee(_id: String) : Boolean
+    login(email : String, password : String) : LoginResponse
 }
 `;
 

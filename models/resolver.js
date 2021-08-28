@@ -32,6 +32,9 @@ const resolvers = {
         deleteEmployee(parent, args, context, info) {
             return repo.deleteEmployee(args._id);
         },
+        login(parent, args, context, info) {
+            return repo.login(args);
+        }
 
     }
 };
