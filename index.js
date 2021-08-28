@@ -1,44 +1,48 @@
 const { ApolloServer, gql } = require('apollo-server');
+const monggose = require('mongoose')
+const repo = require('./repositories/mongo')
 
-// A schema is a collection of type definitions (hence "typeDefs")
-// that together define the "shape" of queries that are executed against
-// your data.
+monggose.connect("mongodb://localhost:27017/upercut")
+monggose.connection.once('open', () => {
+    console.log("Connected to MongoDB")
+})
+
 const typeDefs = gql`
-# Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
-
-# This "Book" type defines the queryable fields for every book in our data source.
-type Book {
-    id: String
-    title: String
-    author: String
+type Company {
+    _id: String
+    name: String
+    email: String
 }
 
-# The "Query" type is special: it lists all of the available queries that
-# clients can execute, along with the return type for each. In this
-# case, the "books" query returns an array of zero or more Books (defined above).
+type Employee {
+    _id: String
+    firstname: String
+    lastname: String
+    email: String
+    companyid: String
+}
+
 type Query {
-    books: [Book]
+    health: String
+    getCompanies: [Company]
+    getCompanyById(id: String): Company
+    getEmployees: [Employee]
+    getMyEmployees(companyid: String): [Employee]
 }
 `;
 
-const books = [
-    {
-        title: 'The Awakening',
-        id: "1",
-        author: 'Kate Chopin',
-    },
-    {
-        title: 'City of Glass',
-        id: "2",
-        author: 'Paul Auster',
-    },
-];
-
-// Resolvers define the technique for fetching the types defined in the
-// schema. This resolver retrieves books from the "books" array above.
 const resolvers = {
     Query: {
-        books: () => books,
+        health: () => "Healthy",
+        getCompanies: () => repo.getCompanies(),
+        getCompanyById: () => repo.getCompanyById(id),
+        getCompanyById(parent, args, context, info) {
+            return repo.getCompanyById(args.id);
+        },
+        getEmployees: () => repo.getEmployees(),
+        getMyEmployees(parent, args, context, info) {
+            return repo.getMyEmployees(args.companyid);
+        },
     },
 };
 
