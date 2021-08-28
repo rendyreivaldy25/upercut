@@ -19,8 +19,10 @@ getCompanies (DONE)<br>
 getCompanyById (DONE)<br>
 getMyEmployees (DONE)<br>
 getEmployees (DONE)<br>
-updateCompany (must be signed in)<br>
-updateEmployee (must be signed in)<br>
-deleteCompany (must be signed in)<br>
-deleteEmployee (must be signed in)<br>
+updateCompany (must be signed in) (DONE)<br>
+updateEmployee (must be signed in) (DONE)<br>
+insertCompany (must be signed in) - BONUS (DONE)<br>
+insertEmployee (must be signed in) - BONUS (DONE)<br>
+deleteCompany (must be signed in) (DONE)<br>
+deleteEmployee (must be signed in) (DONE)<br>
 login(employee and company)
