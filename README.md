@@ -27,6 +27,19 @@ deleteCompany (must be signed in) (DONE)<br>
 deleteEmployee (must be signed in) (DONE)<br>
 login(employee and company) (DONE)
 
+##### Admin User Script MongoDB
+```
+{
+    firstname: 'admin',
+    lastname: 'admin',
+    email: 'admin@mail.com',
+    password: 'admin',
+    companyid: '',
+    lastLogin: '2021-08-29 09:04:53',
+    token: 'dIhAl3MDSfyHDgDVbnwW5BpU2nSijn2F'
+}
+```
+
 ##### CURL Script
 * health<br>
 ```
