@@ -4,6 +4,7 @@ const typeDefs = require('./models/schema');
 const resolvers = require('./models/resolver');
 const contextAuth = require('./repositories/auth');
 const errorHandling = require('./repositories/auth');
+process.env.TZ = "Asia/Jakarta";
 
 monggose.connect("mongodb://localhost:27017/upercut")
 monggose.connection.once('open', () => {

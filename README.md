@@ -40,6 +40,29 @@ login(employee and company) (DONE)
 }
 ```
 
+##### PM2 Setup
+* Start PM2<br>
+```
+pm2 start pmtwo.json
+```
+* Show all PM2 Services
+```
+pm2 list
+```<br>
+or<br>
+```
+pm2 monit
+```
+* Stop all PM2 Service
+```
+pm2 stop all
+```
+* Delete all PM2 Service
+```
+pm2 delete all
+```
+
+
 ##### CURL Script
 * health<br>
 ```
