@@ -13,11 +13,17 @@ type Employee {
     lastname: String
     email: String
     companyid: String
+    lastLogin: String
 }
 
 type LoginResponse {
     status : Boolean
     token : String
+}
+
+type Response {
+    status : Boolean
+    message : String
 }
 
 type Query {
@@ -29,12 +35,12 @@ type Query {
 }
 
 type Mutation {
-    insertCompany(name : String, email : String, password : String) : Boolean
-    insertEmployee(firstname : String, lastname : String, email : String, password : String, companyid: String) : Boolean
-    updateCompany(_id: String, name : String, email : String, password : String) : Boolean
-    updateEmployee(_id: String, firstname : String, lastname : String, email : String, password : String, companyid: String) : Boolean
-    deleteCompany(_id: String) : Boolean
-    deleteEmployee(_id: String) : Boolean
+    insertCompany(name : String, email : String, password : String) : Response
+    insertEmployee(firstname : String, lastname : String, email : String, password : String, companyid: String) : Response
+    updateCompany(_id: String, name : String, email : String, password : String) : Response
+    updateEmployee(_id: String, firstname : String, lastname : String, email : String, password : String, companyid: String) : Response
+    deleteCompany(_id: String) : Response
+    deleteEmployee(_id: String) : Response
     login(email : String, password : String) : LoginResponse
 }
 `;

@@ -10,9 +10,9 @@ const getRandomToken = function(){
 
 const checkLastLoginDateTime = function(stringDate){
     var lastLoginDate = moment(stringDate, 'YYYY-MM-DD HH:mm:ss');
-    var timeDateNow = moment().format('YYYY-MM-DD HH:mm:ss');
-    var dateDiff = lastLoginDate.diff(timeDateNow, 'hours')
-    if( dateDiff > 24){
+    var timeDateNow = moment(new Date(), 'YYYY-MM-DD HH:mm:ss');
+    var dateDiff = moment.duration(timeDateNow.diff(lastLoginDate));
+    if( dateDiff.asHours() > 24){
         return {
             status : false,
             message: "Token Expired"

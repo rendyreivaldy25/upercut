@@ -26,3 +26,26 @@ insertEmployee (must be signed in) - BONUS (DONE)<br>
 deleteCompany (must be signed in) (DONE)<br>
 deleteEmployee (must be signed in) (DONE)<br>
 login(employee and company)
+
+##### CURL Script
+* health<br>
+```
+curl --request POST \
+--header 'content-type: application/json' \
+--url http://localhost:4000/ \
+--data '{"query":"query { health}"}'
+```
+* getCompanies<br>
+```
+curl --request POST \
+--header 'content-type: application/json' \
+--url http://localhost:4000/ \
+--data '{"query":"query { getCompanies { _id name email } }"}'
+```
+* getCompanyById<br>
+```
+curl --request POST \
+--header 'content-type: application/json' \
+--url http://localhost:4000/ \
+--data $'{"query":"query { getCompanyById (id: \"123\") { _id name email } }"}'
+```

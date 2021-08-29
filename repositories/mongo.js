@@ -2,13 +2,16 @@ const company = require('../models/company');
 const employee = require('../models/employee');
 const service = require('../services/common');
 const moment = require('moment');
+const { db } = require('../models/company');
+var ObjectId = require('mongoose').Types.ObjectId;
 
 const getCompanies = async function() {
     return await company.find()
 }
 
 const getCompanyById = async function(id){
-    return await company.findById(id)
+    if(!ObjectId.isValid(id)) return []
+    return await company.find(id)
 }
 
 const getEmployees = async function() {
@@ -16,6 +19,7 @@ const getEmployees = async function() {
 }
 
 const getMyEmployees = async function(id) {
+    if(!ObjectId.isValid(id)) return []
     return await employee.find({companyid:id})
 }
 
@@ -28,7 +32,7 @@ const insertCompany = async function(args) {
         lastLogin: ""
     }
     resultInsert = await company.create(dataCompany);
-    return resultInsert ? true : false;
+    return resultInsert ? {status: true, message : ""} : {status: false, message : "Failed to Insert Data"};
 }
 
 const insertEmployee = async function(args) {
@@ -42,10 +46,11 @@ const insertEmployee = async function(args) {
         lastLogin: ""
     }
     resultInsert = await employee.create(dataEmployee);
-    return resultInsert ? true : false;
+    return resultInsert ? {status: true, message : ""} : {status: false, message : "Failed to Insert Data"};
 }
 
 const updateCompany = async function(args) {
+    if(!ObjectId.isValid(args._id)) return {status: false, message : "Id is not valid"};
     let dataCompany = {
         name: args.name, 
         email: args.email, 
@@ -53,10 +58,11 @@ const updateCompany = async function(args) {
     }
     let where = {_id: args._id};
     resultEdit = await company.updateOne(where, dataCompany);
-    return resultEdit ? true : false;
+    return resultEdit ? {status: true, message : ""} : {status: false, message : "Failed to Update Data"};
 }
 
 const updateEmployee = async function(args) {
+    if(!ObjectId.isValid(args._id)) return {status: false, message : "Id is not valid"};
     let dataEmployee = {
         firstname: args.firstname, 
         lastname: args.lastname, 
@@ -66,18 +72,20 @@ const updateEmployee = async function(args) {
     }
     let where = {_id: args._id};
     resultEdit = await employee.updateOne(where, dataEmployee);
-    return resultEdit ? true : false;
+    return resultEdit ? {status: true, message : ""} : {status: false, message : "Failed to Update Data"};
 }
 
 const deleteEmployee = async function(id) {
+    if(!ObjectId.isValid(id)) return {status: false, message : "Id is not valid"};
     resultDelete = await employee.deleteOne({_id:id})
-    return resultDelete.deletedCount === 1 ? true : false;
+    return resultDelete.deletedCount === 1 ? {status: true, message : ""} : {status: false, message : "Failed to Delete Data"};
 }
 
 const deleteCompany = async function(id) {
+    if(!ObjectId.isValid(id)) return {status: false, message : "Id is not valid"};
     resultDelete = await company.deleteOne({_id:id})
     console.log(resultDelete);
-    return resultDelete.deletedCount === 1 ? true : false;
+    return resultDelete.deletedCount === 1 ? {status: true, message : ""} : {status: false, message : "Failed to Delete Data"};
 }
 
 const login = async function(args) {
@@ -89,21 +97,21 @@ const login = async function(args) {
     var loginCompanyCheck = await company.find(condition)
     var token = service.getRandomToken();
     var update = {
-        token: token,
-        lastLogin: moment().format('YYYY-MM-DD HH:mm:ss')
+        $set: { 
+            token: token,
+            lastLogin: moment().format('YYYY-MM-DD HH:mm:ss') 
+        }
     }
-    console.log([loginEmployeeCheck, loginCompanyCheck]);
     if(loginEmployeeCheck.length > 0){
-        let where = {_id: loginEmployeeCheck[0]._id};
-        console.log([where, update])
-        employee.updateOne(where, update);
+        let where = {_id: loginEmployeeCheck[0]._id.toString()};
+        await employee.updateOne(where, update);
         return {
             status : true,
             token : token
         };
     } else if( loginCompanyCheck.length > 0) {
-        let where = {_id: loginCompanyCheck[0]._id};
-        company.updateOne(where, update);
+        let where = {_id: loginCompanyCheck[0]._id.toString()};
+        await company.updateOne(where, update);
         return {
             status : true,
             token : token
@@ -111,26 +119,35 @@ const login = async function(args) {
     } else {
         return {
             status : false,
-            token : ""
+            token : "User not registered"
         };
     }
 }
 
 const authenticateToken = async function(token){
+    if (token.length === 0){
+        return {
+            status : false,
+            token: token,
+            message: "Token Empty"
+        }
+    }
     var condition = {
         token: token
     }
     var loginEmployeeCheck = await employee.find(condition);
-    var loginCompanyCheck = await company.find(condition)
+    var loginCompanyCheck = await company.find(condition);
     if(loginEmployeeCheck.length > 0 || loginCompanyCheck.length > 0) {
         var loginDate = loginEmployeeCheck.length > 0 ? 
-            loginEmployeeCheck[0].token : 
-            loginCompanyCheck[0].token;
+            loginEmployeeCheck[0].lastLogin : 
+            loginCompanyCheck[0].lastLogin;
         var tokenCheck = service.checkLastLoginDateTime(loginDate);
+        tokenCheck.token = token;
         return tokenCheck;
     }
     return {
         status : false,
+        token: token,
         message: "Token Invalid"
     };
 }
