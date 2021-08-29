@@ -48,8 +48,8 @@ pm2 start pmtwo.json
 * Show all PM2 Services
 ```
 pm2 list
-```<br>
-or<br>
+``` 
+<br>or<br>
 ```
 pm2 monit
 ```
