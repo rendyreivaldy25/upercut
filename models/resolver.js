@@ -33,6 +33,7 @@ const resolvers = {
         async insertCompany(parent, args, context, info) {
             log.logData(`# insertCompany\nargs: ${JSON.stringify(args)}\ncontext: ${JSON.stringify(context)}`);
             if(!context.authenticateResult.status) return context.authenticateResult;
+            if(repo.isEmailExist(args.email)) return {status: true, message:"Email is already registered in system"};
             let response = await repo.insertCompany(args);
             log.logData(`response : ${JSON.stringify(response)}`);
             return response;
@@ -40,6 +41,7 @@ const resolvers = {
         async insertEmployee(parent, args, context, info) {
             log.logData(`# insertEmployee\nargs: ${JSON.stringify(args)}\ncontext: ${JSON.stringify(context)}`);
             if(!context.authenticateResult.status) return context.authenticateResult;
+            if(repo.isEmailExist(args.email)) return {status: true, message:"Email is already registered in system"};
             let response = await repo.insertEmployee(args);
             log.logData(`response : ${JSON.stringify(response)}`);
             return response;

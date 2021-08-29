@@ -152,6 +152,18 @@ const authenticateToken = async function(token){
     };
 }
 
+const isEmailExist = async function(email){
+    var condition = {
+        email: email
+    }
+    var loginEmployeeCheck = await employee.find(condition);
+    var loginCompanyCheck = await company.find(condition);
+    if(loginEmployeeCheck.length > 0 || loginCompanyCheck.length > 0) {
+        return true;
+    }
+    return false;
+}
+
 module.exports = {
     getCompanies,
     getCompanyById,
@@ -164,5 +176,6 @@ module.exports = {
     deleteEmployee,
     deleteCompany,
     login,
-    authenticateToken
+    authenticateToken,
+    isEmailExist
 }
