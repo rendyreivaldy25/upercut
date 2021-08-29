@@ -1,33 +1,33 @@
 # upercut
 An application for Upercut technical test <br>
-##### To-Dos
-* The goal of the exercise is : using graphql and Apollo server With mongodb
-* Create 2 collections Company and employee<br>
-    A company can have many employees (DONE)<br>
-    But an employee can have only one company (DONE)
-* Company fields (DONE)<br>
+### To-Dos
+* (DONE) The goal of the exercise is : using graphql and Apollo server With mongodb
+* (DONE) Create 2 collections Company and employee<br>
+    (DONE) A company can have many employees <br>
+    (DONE) But an employee can have only one company 
+* (DONE) Company fields<br>
 Name<br>
 Email<br>
 Password
-* Employee fields (DONE)<br>
+* (DONE) Employee fields<br>
 Firstname<br>
 Lastname<br>
 Email<br>
 Password
-* Methods to implement :<br>
-getCompanies (DONE)<br>
-getCompanyById (DONE)<br>
-getMyEmployees (DONE)<br>
-getEmployees (DONE)<br>
-updateCompany (must be signed in) (DONE)<br>
-updateEmployee (must be signed in) (DONE)<br>
-insertCompany (must be signed in) (DONE)<br>
-insertEmployee (must be signed in) (DONE)<br>
-deleteCompany (must be signed in) (DONE)<br>
-deleteEmployee (must be signed in) (DONE)<br>
-login(employee and company) (DONE)
+* (DONE) Methods to implement :<br>
+(DONE) getCompanies<br>
+(DONE) getCompanyById<br>
+(DONE) getMyEmployees<br>
+(DONE) getEmployees<br>
+(DONE) updateCompany (must be signed in)<br>
+(DONE) updateEmployee (must be signed in)<br>
+(DONE) insertCompany (must be signed in)<br>
+(DONE) insertEmployee (must be signed in)<br>
+(DONE) deleteCompany (must be signed in)<br>
+(DONE) deleteEmployee (must be signed in)<br>
+(DONE) login(employee and company)
 
-##### Admin User Script MongoDB
+### Admin User Script MongoDB
 ```
 {
     firstname: 'admin',
@@ -40,7 +40,7 @@ login(employee and company) (DONE)
 }
 ```
 
-##### PM2 Setup
+### PM2 Setup
 * Start PM2<br>
 ```
 pm2 start pmtwo.json
@@ -49,7 +49,7 @@ pm2 start pmtwo.json
 ```
 pm2 list
 ``` 
-<br>or<br>
+or<br>
 ```
 pm2 monit
 ```
@@ -63,7 +63,7 @@ pm2 delete all
 ```
 
 
-##### CURL Script
+### CURL Script
 * health<br>
 ```
 curl --request POST \
